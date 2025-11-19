@@ -1,0 +1,88 @@
+<!-- dashboard.html -->
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ user.username }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0"> Welcome, {{ user.username }}!</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Account Information</h5>
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>Member since:</strong> {{ user.created_at }}</p>
+                        <p><strong>Password hash:</strong></p>
+                        <div class="alert alert-success">
+                            <small> bcrypt hash stored securely (not displayed)</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success">
+                            <h5> Active Security Measures</h5>
+                            <ul class="mb-0">
+                                <li> bcrypt hashing with 12 rounds</li>
+                                <li> Unique salt generated automatically</li>
+                                <li>Strong password policy</li>
+                                <li> Hashes not publicly exposed</li>
+                                <li> Protection against timing attacks</li>
+                                <li> Generic error messages</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">📊 Application Statistics</h4>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h2 class="text-primary">{{ total_users }}</h2>
+                                <p class="mb-0">Registered users</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h2 class="text-success">12</h2>
+                                <p class="mb-0">bcrypt rounds</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h2 class="text-info">~300ms</h2>
+                                <p class="mb-0">Hashing time</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4">
+                    <strong>💡 Security Note:</strong> 
+                    Unlike the vulnerable version, this application:
+                    <ul class="mb-0 mt-2">
+                        <li>Does NOT allow viewing other users' hashes</li>
+                        <li>Uses bcrypt which is intentionally slow (brute force protection)</li>
+                        <li>Generates a unique salt for each password</li>
+                        <li>Enforces a strong password policy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
