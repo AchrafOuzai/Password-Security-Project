@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Security Information - Password Security Demo{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body p-5">
+                <h1 class="card-title mb-4">Security Implementation</h1>
+                
+                <div class="alert alert-success">
+                    <strong>This application implements security best practices!</strong>
+                </div>
+                
+                <h3 class="mt-4">Password Hashing</h3>
+                <div class="security-feature">
+                    <strong>Algorithm: bcrypt</strong>
+                    <p>bcrypt is a slow, memory-intensive password hashing function designed to resist brute-force attacks.</p>
+                </div>
+                
+                <h3 class="mt-4">Salt Generation</h3>
+                <div class="security-feature">
+                    <strong>Automatic Salt per Password</strong>
+                    <p>Each password is hashed with a unique, randomly generated salt. This prevents:</p>
+                    <ul>
+                        <li>Rainbow table attacks</li>
+                        <li>Dictionary attacks</li>
+                        <li>Identical password detection</li>
+                    </ul>
+                </div>
+                
+                <h3 class="mt-4">Password Policy</h3>
+                <div class="security-feature">
+                    <strong>Strong Password Requirements</strong>
+                    <p>Passwords must contain:</p>
+                    <ul>
+                        <li>Minimum 12 characters</li>
+                        <li>At least one uppercase letter (A-Z)</li>
+                        <li>At least one lowercase letter (a-z)</li>
+                        <li>At least one digit (0-9)</li>
+                        <li>At least one special character (!@#$%^&*)</li>
+                    </ul>
+                </div>
+                
+                <h3 class="mt-4">Computational Cost</h3>
+                <div class="security-feature">
+                    <strong>12 Rounds of Processing</strong>
+                    <p>bcrypt uses 12 rounds (configurable), making each hash computation take milliseconds instead of microseconds. This exponentially increases the time needed for brute-force attacks.</p>
+                </div>
+                
+                <h3 class="mt-4">Information Disclosure Prevention</h3>
+                <div class="security-feature">
+                    <strong>Hashes Never Exposed</strong>
+                    <p>Unlike vulnerable applications, password hashes are:</p>
+                    <ul>
+                        <li>Never displayed to users</li>
+                        <li>Never included in API responses</li>
+                        <li>Only used for verification</li>
+                    </ul>
+                </div>
+                
+                <h3 class="mt-4">Error Messages</h3>
+                <div class="security-feature">
+                    <strong>Generic Responses</strong>
+                    <p>Login errors do not reveal whether a username exists. This prevents user enumeration attacks.</p>
+                </div>
+                
+                <h3 class="mt-4">Session Security</h3>
+                <div class="security-feature">
+                    <strong>Secure Secret Key</strong>
+                    <p>Session cookies are signed with a cryptographically secure random key generated at runtime, not hardcoded.</p>
+                </div>
+                
+                <h3 class="mt-4">Comparison with Vulnerabilities</h3>
+                <table class="table table-striped mt-3">
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th>Vulnerable (MD5)</th>
+                            <th>Secure (bcrypt)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Algorithm</strong></td>
+                            <td>MD5</td>
+                            <td>bcrypt</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Salt</strong></td>
+                            <td>None</td>
+                            <td>Unique per password</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Speed</strong></td>
+                            <td>Nanoseconds</td>
+                            <td>Milliseconds</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cracking Speed</strong></td>
+                            <td>Billions/second</td>
+                            <td>Single digit/second</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rainbow Tables</strong></td>
+                            <td>Vulnerable</td>
+                            <td>Immune</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Brute Force Time (8 char)</strong></td>
+                            <td>&lt;1 second</td>
+                            <td>Years</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="alert alert-info mt-4">
+                    <strong>Learn More:</strong>
+                    <ul>
+                        <li><a href="https://en.wikipedia.org/wiki/Bcrypt" target="_blank">bcrypt on Wikipedia</a></li>
+                        <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html" target="_blank">OWASP Password Storage</a></li>
+                        <li><a href="https://www.python-bcrypt.readthedocs.io/" target="_blank">Python bcrypt Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="/" class="btn btn-primary">Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
