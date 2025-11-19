@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Secure{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="mb-0">📝 Secure Registration</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/register" id="registerForm">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">
+                            <strong>Strong password policy:</strong>
+                            <ul class="small mb-0 mt-2">
+                                <li id="length-check">Minimum 12 characters</li>
+                                <li id="uppercase-check">At least one uppercase letter</li>
+                                <li id="lowercase-check">At least one lowercase letter</li>
+                                <li id="number-check">At least one number</li>
+                                <li id="special-check">At least one special character (!@#$%^&*)</li>
+                            </ul>
+                        </div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar" id="strength-bar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <small id="strength-text" class="form-text"></small>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <strong>🔒 Security:</strong> Your password will be hashed with bcrypt (12 rounds) and a unique salt.
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success w-100">Sign up</button>
+                </form>
+                
+                <div class="text-center mt-3">
+                    <p>Already have an account? <a href="/login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+    
+    // Check each criterion
+    const hasLength = password.length >= 12;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    
+    // Update visual indicators
+    document.getElementById('length-check').style.color = hasLength ? 'green' : 'red';
+    document.getElementById('uppercase-check').style.color = hasUppercase ? 'green' : 'red';
+    document.getElementById('lowercase-check').style.color = hasLowercase ? 'green' : 'red';
+    document.getElementById('number-check').style.color = hasNumber ? 'green' : 'red';
+    document.getElementById('special-check').style.color = hasSpecial ? 'green' : 'red';
+    
+    // Calculate strength
+    if (hasLength) strength += 20;
+    if (hasUppercase) strength += 20;
+    if (hasLowercase) strength += 20;
+    if (hasNumber) strength += 20;
+    if (hasSpecial) strength += 20;
+    
+    // Update progress bar
+    const bar = document.getElementById('strength-bar');
+    bar.style.width = strength + '%';
+    
+    if (strength < 40) {
+        bar.className = 'progress-bar bg-danger';
+        document.getElementById('strength-text').textContent = 'Weak';
+    } else if (strength < 80) {
+        bar.className = 'progress-bar bg-warning';
+        document.getElementById('strength-text').textContent = 'Medium';
+    } else if (strength < 100) {
+        bar.className = 'progress-bar bg-info';
+        document.getElementById('strength-text').textContent = 'Good';
+    } else {
+        bar.className = 'progress-bar bg-success';
+        document.getElementById('strength-text').textContent = 'Excellent!';
+    }
+});
+</script>
+{% endblock %}
