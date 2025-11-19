@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - {{ user.username }}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+                <h3 class="mb-0">👋 Welcome, {{ user.username }}!</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Account Information</h5>
+                        <p><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>MD5 Password Hash:</strong></p>
+                        <code class="text-danger">{{ user.password }}</code>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-danger">
+                            <h5>⚠ Vulnerabilities Detected</h5>
+                            <ul class="mb-0">
+                                <li>Use of MD5 (obsolete algorithm)</li>
+                                <li>No salt used</li>
+                                <li>Hash easily crackable</li>
+                                <li>No strong password policy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0">📊 User Database (VULNERABILITY: Hash Exposure)</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>MD5 Hash</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user_item in all_users %}
+                            <tr>
+                                <td>{{ user_item.username }}</td>
+                                <td><code class="text-danger">{{ user_item.password }}</code></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" onclick="copyHash('{{ user_item.password }}')">
+                                        📋 Copy
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="alert alert-info mt-3">
+                    <strong>💡 Demonstration Note:</strong> 
+                    These MD5 hashes can be exported and cracked with Hashcat or rainbow tables.
+                    In a real attack, an attacker would need to access the database (SQL Injection, etc.).
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function copyHash(hash) {
+    navigator.clipboard.writeText(hash).then(() => {
+        alert('Hash copied to clipboard!');
+    });
+}
+</script>
+{% endblock %}
