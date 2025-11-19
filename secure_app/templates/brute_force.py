@@ -15,7 +15,7 @@ def load_hashes(filename='hashes.txt'):
             hashes = [line.strip() for line in f if line.strip()]
         return hashes
     except FileNotFoundError:
-        print(f"❌ File {filename} not found!")
+        print(f"File {filename} not found!")
         print("Run extract_hashes.py first")
         return []
 
@@ -26,7 +26,7 @@ def load_wordlist(filename='rockyou.txt', max_lines=100000):
             words = [line.strip() for line in f if line.strip()][:max_lines]
         return words
     except FileNotFoundError:
-        print(f"❌ Wordlist {filename} not found!")
+        print(f"Wordlist {filename} not found!")
         print("Download rockyou.txt or use another wordlist")
         return []
 
@@ -42,27 +42,27 @@ def brute_force_attack():
     """Run the brute-force attack"""
     
     print("="*70)
-    print("🔨 BRUTE-FORCE ATTACK - MD5")
+    print("BRUTE-FORCE ATTACK - MD5")
     print("="*70)
     
     # Load hashes
-    print("\n📥 Loading hashes...")
+    print("\nLoading hashes...")
     hashes = load_hashes()
     if not hashes:
         return
     
-    print(f"   ✅ {len(hashes)} hashes loaded")
+    print(f"   {len(hashes)} hashes loaded")
     
     # Load wordlist
-    print("\n📥 Loading wordlist...")
+    print("\nLoading wordlist...")
     wordlist = load_wordlist()
     if not wordlist:
         return
     
-    print(f"   ✅ {len(wordlist)} passwords loaded")
+    print(f"   {len(wordlist)} passwords loaded")
     
     # Start attack
-    print("\n🚀 Starting attack...")
+    print("\nStarting attack...")
     print("-"*70)
     
     start_time = time.time()
@@ -76,7 +76,7 @@ def brute_force_attack():
         hash_time = time.time() - hash_start
         
         if password:
-            print(f"   ✅ FOUND! Password: '{password}' (in {hash_time:.2f}s)")
+            print(f"   FOUND! Password: '{password}' (in {hash_time:.2f}s)")
             results.append({
                 'hash': target_hash,
                 'password': password,
@@ -84,7 +84,7 @@ def brute_force_attack():
                 'cracked': True
             })
         else:
-            print(f"   ❌ Failed (in {hash_time:.2f}s)")
+            print(f"   Failed (in {hash_time:.2f}s)")
             results.append({
                 'hash': target_hash,
                 'password': None,
@@ -96,17 +96,17 @@ def brute_force_attack():
     
     # Display results
     print("\n" + "="*70)
-    print("📊 ATTACK RESULTS")
+    print("ATTACK RESULTS")
     print("="*70)
     
     cracked = sum(1 for r in results if r['cracked'])
     success_rate = (cracked / len(results)) * 100
     
-    print(f"\n✅ Cracked hashes: {cracked}/{len(results)} ({success_rate:.1f}%)")
-    print(f"⏱  Total time: {total_time:.2f} seconds")
-    print(f"⚡ Average speed: {len(wordlist)*len(results)/total_time:.0f} hash/s")
+    print(f"\nCracked hashes: {cracked}/{len(results)} ({success_rate:.1f}%)")
+    print(f"Total time: {total_time:.2f} seconds")
+    print(f"Average speed: {len(wordlist)*len(results)/total_time:.0f} hash/s")
     
-    print("\n📋 Details:")
+    print("\nDetails:")
     print("-"*70)
     print(f"{'Hash':<35} {'Password':<20} {'Time'}")
     print("-"*70)
@@ -126,16 +126,16 @@ def brute_force_attack():
             if result['cracked']:
                 f.write(f"{result['hash']}:{result['password']}\n")
     
-    print(f"\n💾 Results saved in: {output_file}")
+    print(f"\nResults saved in: {output_file}")
     
     print("\n" + "="*70)
-    print("⚠  MD5 VULNERABILITY DEMONSTRATION")
+    print("MD5 VULNERABILITY DEMONSTRATION")
     print("="*70)
     print("\nThis attack demonstrates that:")
     print("1. MD5 hashes are extremely fast to compute")
     print("2. Without a salt, identical passwords produce identical hashes")
     print("3. Wordlists and rainbow tables can crack MD5 easily")
-    print("\n✅ Solution: Use bcrypt or Argon2 with a salt!")
+    print("\nSolution: Use bcrypt or Argon2 with a salt!")
 
-if __name__ == "_main_":
+if __name__ == "__main__":
     brute_force_attack()
